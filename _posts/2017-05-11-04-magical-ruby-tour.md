@@ -186,6 +186,8 @@ list3.size
 #=> 3
 list.include?(0)
 #=> false
+list.sample
+#=> 1か2か3（配列内の要素がランダムに返される）
 {% endhighlight %}
 
 また、配列に対しても演算子を使った演算ができます。
@@ -203,6 +205,21 @@ b = [1, 3, 5]
 c = a - b
 #=> [2]
 {% endhighlight %}
+
+C言語では、intで宣言した配列にはintの要素しか格納できませんでしたが、Rubyの配列は、いろいろな型の要素を格納することができます。
+
+{% highlight ruby linenos %}
+iroiro_list = [1, 1.5, 'こんにちは', nil]
+iroiro_list[0].class
+#=> Integer
+iroiro_list[1].class
+#=> Float
+iroiro_list[2].class
+#=> String
+iroiro_list[3].class
+#=> NilClass
+{% endhighlight %}
+
 
 ### ハッシュ
 
@@ -243,7 +260,7 @@ nil.class
 
 ok = true
 if ok
-  puts "OK"
+  puts "いいよ"
 else
   puts "だめ"
 end
@@ -269,11 +286,112 @@ elsif <= 20
 else
   puts "学生じゃないです"
 end
+#=> 高専生
 {% endhighlight %}
+
+
+### 繰り返し処理とイテレーション
+
+プログラムでは、繰り返し処理を行いたいことがあります。例えば、次のようにいろいろな種類のオブジェクトの入った、配列listがあるとします。
+
+{% highlight ruby linenos %}
+list = ['apple', 1, 2, 1.5, { name: 'Takuya' }, nil, true, false]
+{% endhighlight %}
+
+このリストの要素を順番に取り出して、クラス名を表示したいとします。以下のコードは、すべてその処理をRubyで書いたものです。なお、オブジェクトの集合の要素を1つずつ順番に参照するような処理のことを、一般的にイテレーションと呼びます。
+
+{% highlight ruby linenos %}
+# forを使う
+for element in list
+  puts element.class
+end
+
+# eachメソッドを使う（ブロックをdo - endで表現）
+list.each do |element|
+  puts element.class
+end
+
+# eachメソッドを使う（ブロックを{ - }で表現）
+list.each { |element| puts element.class }
+{% endhighlight %}
+
+ひとまとまりの処理の事をブロックと言います。Rubyは、do-endまたは{}でブロックを表現することができます。
+
+Rubyでは、ブロックをメソッドの引数にすることができるので、上記のeachメソッドを使った例を言葉で説明すると、「配列オブジェクトの持つeachメソッドに、要素のclassを出力する処理のブロックを渡している。」といえます。
+
+別の例を見てみましょう。nに0から9までを代入して表示をするようなプログラムは、次のように書くことができます。
+
+{% highlight ruby linenos %}
+# for文を使う
+for n in 0..9
+  puts n
+end
+
+# 数値オブジェクトのtimesメソッドを使う
+10.times do |n|
+  puts n
+end
+
+# whileを使う
+n = 0
+while (n < 10)
+  puts n
+  n += 1
+end
+{% endhighlight %}
+
+なお、数値オブジェクト2つの間に..を挟むと、Rangeクラスのオブジェクトになります。
+
+{% highlight ruby linenos %}
+(0..9).class
+#=> Range
+{% endhighlight %}
+
+Rangeクラスのオブジェクトは、以下のように配列に変換して使われることが多いです。
+
+{% highlight ruby linenos %}
+list = (1..10).to_a # 1..10のRangeオブジェクトを、to_aメソッドで配列に変換
+list.sample
+#=> 1〜10の値がランダムに表示される
+{% endhighlight %}
+
+
+### メソッドの定義
+
+C言語で自分の関数が作ることができたように、Rubyでも自分のメソッドを定義することができます。
+
+名前を引数として受取り、「Hello, Takuya!」というように表示する hello メソッドは、以下のように定義できます。
+
+{% highlight ruby linenos %}
+def hello(name)
+  puts "Hello, #{name}!"
+end
+
+hello("タクヤ")
+#=> Hello, タクヤ!
+{% endhighlight %}
+
+また、テキストと飾り用の記号を受取り、飾り付けをしたテキストを返す decorate メソッドは、以下のように定義できます。
+
+{% highlight ruby linenos %}
+def decorate(text, mark)
+  mark + text + mark
+end
+
+text = "こんにちは"
+mark = "！！！"
+decorated_text = decorate(text, mark)
+puts decorated_text
+#=> ！！！こんにちは！！！
+{% endhighlight %}
+
+C言語では、関数の引数や返り値の型の宣言が必要でしたが、Rubyでは必要ありません。また、return文もRubyでは省略することができます。return文を省略した場合は、最後に評価された式の結果がメソッドの返り値として返されます。
+
 
 ## 練習問題
 
 ### 1. 女性と子供の安心車両判定プログラム
+
 以下の条件をみたすときに、「女性と子供の安心車両に乗ることができます。」と表示するプログラムを作成してください。ファイル名は sapporo.rb とします。
 
 - 女性（genderが'f'の時）
@@ -281,8 +399,30 @@ end
 
 なお、キーボードからの入力は以下のようにして受け取ることができます。
 
-
 {% highlight ruby linenos %}
 input = gets() # キーボードから入力
 input.chomp!    # input変数の最後の1文字を削除する（変数inputには改行コードが含まれているため）
 {% endhighlight %}
+
+
+### 2. パスワード生成器
+
+パスワードを生成するメソッド gen_password を定義し、それを使用してパスワードを出力するプログラムを作成してください。
+
+仕様は以下の通りとします。
+
+- 引数として文字数を受取り、受け取った文字数分のパスワードを出力すること。
+- パスワードの範囲は、アルファベット大文字と小文字のみとする。
+
+なお、配列オブジェクトのsampleメソッドは、以下のように数値を引数として取り、その数だけランダムに要素を出力するという事ができます。
+
+{% highlight ruby linenos %}
+list = ['T', 'A', 'K', 'U', 'Y', 'A']
+list.sample(3) # ランダムに3つ取り出す
+#=> ["K", "A", "Y"]
+{% endhighlight %}
+
+
+### 3. ソースコードに行番号自動でつけるマシーン
+
+

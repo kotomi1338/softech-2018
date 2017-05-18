@@ -425,4 +425,21 @@ list.sample(3) # ランダムに3つ取り出す
 
 ### 3. ソースコードに行番号自動でつけるマシーン
 
+ソースコードのファイルを読み込み、先頭に行番号をつけて出力するプログラムを作成してください。
+
+動作例は以下のとおりです。
+
+![ソースコードに行番号自動でつけるマシーンの動作例]({{ site.baseurl }}/images/add_line_numbers_example.png)
+
+Rubyでファイルを読み込むには、以下のようなコードを書きます。
+
+{% highlight ruby linenos %}
+# 1行ずつ読み込む
+File.open('hello.c') do |file|
+  file.each do |line|
+    puts line
+  end
+end
+# line変数に、1行ずつファイルの中身が格納されている。
+{% endhighlight %}
 

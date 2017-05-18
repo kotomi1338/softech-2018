@@ -404,6 +404,18 @@ input = gets() # キーボードから入力
 input.chomp!    # input変数の最後の1文字を削除する（変数inputには改行コードが含まれているため）
 {% endhighlight %}
 
+また、キーボードからの入力はすべて文字列オブジェクトとして解釈されるため、整数オブジェクトに変換する必要があります。
+文字列オブジェクトを整数オブジェクトに変換するには、to_iメソッドを利用します。
+
+{% highlight ruby linenos %}
+str = "1" # 文字列としての '1'
+str.class
+#=> String
+integer = str.to_i # 整数としての 1 に変換し、integer変数に代入
+integer.class
+#=> Integer or Fixnum
+{% endhighlight %}
+
 
 ### 2. パスワード生成器
 

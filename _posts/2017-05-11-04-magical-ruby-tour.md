@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "04 Rubyツアー その1"
+title:  "04 Rubyクイックツアー"
 date:   2017-05-11 12:00:00 +0900
 
 ---

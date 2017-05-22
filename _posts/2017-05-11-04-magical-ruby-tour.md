@@ -434,6 +434,16 @@ list.sample(3) # ランダムに3つ取り出す
 #=> ["K", "A", "Y"]
 {% endhighlight %}
 
+また、上で紹介した範囲オブジェクトは、文字列にも適用することができます。
+
+{% highlight ruby linenos %}
+komoji = 'a'..'z'
+ohmoji = 'A'..'Z'
+
+alphabets = komoji.to_a + ohmoji.to_a
+{% endhighlight %}
+
+
 
 ### 3. ソースコードに行番号自動でつけるマシーン
 

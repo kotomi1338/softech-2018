@@ -465,3 +465,17 @@ end
 # line変数に、1行ずつファイルの中身が格納されている。
 {% endhighlight %}
 
+
+### サンプルコード集
+
+#### 1. 女性と子供の安心車両判定プログラム
+
+<script src="https://gist.github.com/mktakuya/31534e0fd4b6af3d3dd86485467b0900.js"></script>
+
+#### 2. パスワード生成器
+
+<script src="https://gist.github.com/mktakuya/9412d241ddf6daf3ebbcb78c071d4f09.js"></script>
+
+#### 3. ソースコードに行番号自動でつけるマシーン
+
+<script src="https://gist.github.com/mktakuya/464478c6f8d65b81df32b5387b203673.js"></script>

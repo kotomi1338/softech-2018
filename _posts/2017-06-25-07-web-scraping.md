@@ -22,7 +22,6 @@ date:   2017-06-25 12:00:00 +0900
 
 Webページには、サイトの飾り付けや画像と一緒に、様々な情報が表示されています。今回必要なのは、タイトルと発売日のみです。任天堂のWebサイトをスクレイピングするプログラムを書いて、タイトルと発売日を取得し、CSVファイルにまとめてみました。
 
-
 ![Switch発売予定のソフトのCSV]({{ site.baseurl }}/images/switch-softwares-csv.png)
 
 [ソースコードはここ](https://github.com/mktakuya/switch-softwares)

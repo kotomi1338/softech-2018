@@ -31,8 +31,8 @@ $ cp /etc/Cshrc ~/.tcshrc
 今コピーしてきた.tcshrcファイルの末尾に、以下の2行を書き加えます。なお、user_nameとpasswordは、各自のCAI室のユーザ名とパスワードに読み替えてください。
 
 ```
-$ setenv http_proxy "http://user_name:password@172.23.1.8:8080"
-$ setenv https_proxy $http_proxy
+setenv http_proxy "http://user_name:password@172.23.1.8:8080"
+setenv https_proxy $http_proxy
 ```
 
 ## 設定ファイルの再読込

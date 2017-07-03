@@ -50,3 +50,19 @@ $ wget http://mktakuya.net
 $ gcc -o hello hello.c
 $ gem install gimei
 ```
+
+
+gcc動作確認用の適当なC言語プログラム（コピペ用）
+
+
+```
+#include <stdio.h>
+
+int main(void) 
+{
+        printf("Hello World\n");
+
+        return 0;
+}
+```
+

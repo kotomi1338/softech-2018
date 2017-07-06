@@ -265,7 +265,7 @@ end
 
 {% highlight ruby linenos %}
 # 自作のファイルをrequireするときは、パスの指定が必要
-require './schedule_checker'
+require './schedule-checker'
 
 schedule_checker = ScheduleChecker.new('J2')
 schedule_checker.fetch 		# 授業変更情報を取得し、インスタンス変数@changesにセット

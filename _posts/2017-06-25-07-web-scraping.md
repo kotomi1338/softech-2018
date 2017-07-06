@@ -213,10 +213,104 @@ Webページから情報を取得して加工・整形して保存し、どう�
 
 今回作成したプログラムでは、授業変更情報の表の見出しも一緒に出力されてしまっていました。見出しは表示せず、純粋な授業変更情報のみを表示するようにプログラムを作り変えてください。
 
-ヒント： each_with_indexメソッド？
+ヒント： each_with_indexメソッドを使うと良さそう。 [参考リンク](https://docs.ruby-lang.org/ja/2.4.0/method/Enumerable/i/each_with_index.html)
+
+{% highlight ruby %}
+# each_with_indexメソッドの使い方
+
+ary = ['りんご', 'バナナ', 'パイナップル', 'ペン', 'アップル']
+
+ary.each_with_index do |item, i|
+  puts "#{i}番目: #{item}"
+end
+{% endhighlight %}
 
 
-### 2. 全クラスの授業変更情報を取得する
+### 2. クラス化してみる
 
-今回作成したプログラムでは、2年5組の情報しか取得できませんでした。すべてのクラスの授業変更情報を取得できるようにプログラムを作り変えてください。（各クラス毎のURLを配列に突っ込んで、eachで回してやるといいかも？各クラス毎のURLがどういうルールになっているかに注目？）
+今回作成したプログラムを、クラス化して、再利用できるようにしてみましょう。
+
+ファイル名は 'schedule-checker.rb' クラス名は ScheduleChecker とします。仕様は、以下のとおりです。
+
+- initializeメソッド
+  * インスタンス変数への値のセット
+  * 引数 class_name 各クラスの名称（情報5年→J5、2年5組→J2）
+- インスタンス変数
+  * @changes 授業変更情報（文字列）の配列
+  * @url スクレイピングの対象とするWebページのURL（文字列）
+- インスタンスメソッド
+  * fetch 授業変更情報を取得し、インスタンス変数@changesにセットする。
+  * display 授業変更情報を表示する。
+
+以下は、ScheduleCheckerクラスの雛形です。
+
+{% highlight ruby linenos %}
+class ScheduleChecker
+  def initialize(class_name)
+  	@changes = []
+	@url = "http://jyugyou.tomakomai-ct.ac.jp/jyugyou.php?class=#{class_name}"
+  end
+
+  def fetch
+  	# 授業変更情報を取得し@changesに格納
+  end
+
+  def display
+  	# 授業変更情報の表示
+  end
+end
+{% endhighlight %}
+
+また、実行用のRubyプログラムは、main.rbとします。main.rbは以下のとおりです。
+
+{% highlight ruby linenos %}
+# 自作のファイルをrequireするときは、パスの指定が必要
+require './schedule_checker'
+
+schedule_checker = ScheduleChecker.new('J2')
+schedule_checker.fetch 		# 授業変更情報を取得し、インスタンス変数@changesにセット
+schedule_checker.display 	# J2（2年5組）の授業変更情報が出力される
+{% endhighlight %}
+
+なお、Ruby標準のライブラリや、gemコマンドでインストールしたgem以外の、自作のファイルをrequireする場合は、 `require './schedule-checker'` のように `./` 等でパスを指定してやらなければなりません。
+
+
+### 3. 全クラスの授業変更情報を取得する
+
+今回作成したプログラムでは、2年5組の情報しか取得できませんでした。すべてのクラスの授業変更情報を取得できるようにプログラムを作り変えてください。（各クラスの名称を配列に突っ込んで、eachで回してやると良い。）
+
+
+### 4. 日程と授業変更内容を分割する
+
+今回作成したプログラムでは、授業変更の日程（日付と時間）と、変更内容がひとつになっていました。
+
+取得した情報を日程と変更内容で分割しハッシュにまとめ、それらをインスタンス変数@changes配列に格納してください。
+
+```
+# こんな感じ
+@changes
+#=> 
+[
+  { date: '7月18日(火) 5・6時限目', content: 'プログラミングⅠ→論理回路Ⅰ' },
+  { date: '7月20日(水) 1・2時限目', content: '論理回路Ⅰ→プログラミングⅠ' }
+]
+```
+
+### 5. 授業変更情報をCSVファイルに書き込んでみる
+
+今回作成したScheduleCheckerクラスに、授業変更情報をCSVファイルに書き込むインスタンスメソッド `output_to_csv` を追加しましょう。
+
+仕様は、以下のとおりです。
+
+- 書き込むCSVのファイル名は、 `J2.csv` のように、initializeメソッドで受け取ったclass_name変数の値を使うこと。
+- CSVファイルは、以下のようなフォーマットであること。
+
+```
+日程,内容
+7月18日(火) 5・6時限目,プログラミングⅠ→論理回路Ⅰ
+7月20日(水) 1・2時限目,論理回路Ⅰ→プログラミングⅠ
+```
+
+なお、CSVファイルへの書き込みの方法は、Rubyのドキュメントや、Google検索で出てきた記事を参照してください。
+[参考](https://docs.ruby-lang.org/ja/latest/class/CSV.html)
 
